@@ -1,13 +1,18 @@
 <div class="d-flex">
   <input [(ngModel)]="urlImageSaisie" />
-  <div class="bouton" (click)="ajouterImage()">Ajouter</div>
+
+  <button matButton="elevated" (click)="ajouterImage()">Ajouter</button>
+
+  <mat-slider min="10" max="100" step="1">
+    <input matSliderThumb [(ngModel)]="valeurSlider" />
+  </mat-slider>
 </div>
 
 <div class="liste-categories">
-  @for (categorie of categories; track indexCategorie; let indexCategorie = $index) {
+  @for (categorie of categories(); track indexCategorie; let indexCategorie = $index) {
     <div class="categorie">
       <div class="en-tete">
-        <span>{{ categorie.titre }}</span>
+        <span [ngStyle]="{ 'font-size': valeurSlider + 'px' }">{{ categorie.titre }}</span>
       </div>
       <div class="liste-images">
         @for (urlImage of categorie.images; track indexImage; let indexImage = $index) {
