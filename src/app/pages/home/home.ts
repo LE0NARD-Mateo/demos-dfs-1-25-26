@@ -41,7 +41,7 @@ export class Home {
   refreshCategories() {
     this.categorieService.getAll().subscribe();
 
-    //quans c'est fini je veux afficher une notification
+    //quand c'est fini je veux afficher une notification
   }
 
   // sauvegarder() {
@@ -52,10 +52,18 @@ export class Home {
     if (this.urlImageSaisie !== '') {
       this.categorieService.ajouterImage(this.urlImageSaisie).subscribe({
         next: (response) => {
-          this.notification.valid("l'image a bien été ajoutée");
+          this.notification.valid("L'image a bien été ajoutée");
         },
         error: (erreur) => {
-          this.notification.error("l'url est invalide");
+
+          if(erreur.status === 400) {
+            this.notification.error("L'url est invalide");
+            return;
+          } else if(erreur.status === 409) {
+            this.notification.warning("Cette image existe déjà");
+          } else {
+            this.notification.error("Impossible d'ajouter l'image");
+          }
         },
       });
 

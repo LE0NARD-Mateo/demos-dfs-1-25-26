@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -8,6 +8,9 @@ import { environment } from '../../environments/environment';
 })
 export class CategorieService {
   readonly categories = signal<Categorie[]>([]);
+  
+  readonly nombreImages = computed(
+    () => this.categories().reduce((acc, categorie) => acc + categorie.images.length, 0));
 
   http = inject(HttpClient);
 
